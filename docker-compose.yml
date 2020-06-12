@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: server
+    ports:
+      - "5000:5000"
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: client
+    environment:
+      - SERVER_URL=http://server:5000

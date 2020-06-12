@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option csharp_namespace = "Exchange.Core";
+
+import "google/protobuf/empty.proto";
+package exchange;
+
+service Exchange {
+  rpc AddOrder (Order) returns (OrderId);
+  rpc RemoveOrder (OrderId) returns (Order);
+  rpc BestPriceFeed (google.protobuf.Empty) returns (stream Order);
+  rpc TradeFeed (google.protobuf.Empty) returns (stream Trade);
+}
+
+enum OrderType {
+  UNSPECIFIED = 0;
+  BUY = 1;
+  SELL = 2;
+}
+
+message Order {
+  string symbol = 1;
+  OrderType type = 2;
+  uint32 price = 3;
+  uint64 volume = 4;
+}
+
+message OrderId {
+  bytes id = 1;
+}
+
+message Trade {
+  bytes trade_id = 1;
+  bytes buy_order_id = 2;
+  bytes sell_order_id = 3;
+  string symbol = 4;
+  uint32 price = 5;
+  uint64 volume = 6;
+}
